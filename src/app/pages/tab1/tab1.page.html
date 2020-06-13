@@ -1,0 +1,43 @@
+<ion-header no-border>
+    <ion-toolbar color="tertiary">
+        <ion-title>Empresas CHELECH</ion-title>
+    </ion-toolbar>
+    <ion-progress-bar *ngIf=" buscando " color="tertiary" type="indeterminate"></ion-progress-bar>
+</ion-header>
+
+<ion-content class="animated fadeIn">
+
+    <app-slideshow-backdrop [promos]="promociones" (clickPost)="clickPromocion( $event )"></app-slideshow-backdrop>
+
+    <ion-grid>
+        <ion-row>
+            <ion-col *ngFor="let prod of productos" tappable (click)="verproducto( prod )" size="6" size-md="4" size-sm="4" size-xl="3" size-lg="4">
+                <ion-card mode="ios">
+                    <!-- ofertas? -->
+                    <div class="stripe" *ngIf=" prod.oferta === true ">
+                        <i class="right"></i>Oferta
+                    </div>
+                    <!--  -->
+                    <img [src]=" prod.codigosincolor " onerror=" this.src='assets/images/no-img.png' " alt="img" class="imagen" />
+                    <ion-card-header>
+                        <ion-card-title>$ {{ prod.precio | number:"1.0-0" }}</ion-card-title>
+                    </ion-card-header>
+                    <ion-card-content>
+                        {{ prod.descripcion }}
+                    </ion-card-content>
+                </ion-card>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+
+    <ion-infinite-scroll threshold="200px" (ionInfinite)="loadImages(false,$event)">
+        <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Buscando más..."></ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+
+    <ion-fab horizontal="end" vertical="bottom" slot="fixed">
+        <ion-fab-button color="tertiary" (click)="scrollToTop()" size="small">
+            <ion-icon name="arrow-up"></ion-icon>
+        </ion-fab-button>
+    </ion-fab>
+
+</ion-content>

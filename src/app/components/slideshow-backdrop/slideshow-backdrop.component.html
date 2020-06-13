@@ -1,0 +1,13 @@
+<ion-slides pager="false" class="slide-full" [options]="slidesOptions">
+    <ion-slide *ngFor="let slide of promos" (click)="onClick( slide )">
+        <ion-card mode="ios">
+            <img [src]="slide.imagen" alt="imagen" class="slide-image">
+            <ion-card-header style="margin-top:-20px">
+                <ion-card-title>$ {{ slide.precio | number:"1.0-0" }}</ion-card-title>
+            </ion-card-header>
+            <ion-card-content>
+                {{ slide.descrip }}
+            </ion-card-content>
+        </ion-card>
+    </ion-slide>
+</ion-slides>

@@ -1,0 +1,67 @@
+    ion-slides {
+        padding-top: 5px;
+        padding-bottom: 20px;
+        font-size: 70%;
+        width: 100%;
+        height: 250px;
+        max-height: 300px !important;
+    }
+    
+    .slide-image {
+        width: 100px;
+        text-align: center;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        position: relative;
+        top: -50px;
+        width: 175px !important;
+        height: 175px !important;
+    }
+    
+    // segundo efecto 
+    .slide-full {
+        height: 100% !important;
+        padding-top: 30px;
+        padding-bottom: 13px;
+    }
+    
+    ion-card {
+        overflow: unset !important;
+    }
+    
+    ion-card {
+        height: 200px;
+        width: 300px;
+    }
+    
+    ion-card-header {
+        position: relative;
+        top: -50px;
+        margin-top: -20px;
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+    
+    ion-card-title {
+        font-size: 125%;
+        background: var(--ion-color-danger);
+        color: var(--ion-color-light);
+    }
+    
+    ion-card-content {
+        position: relative;
+        top: -50px;
+        margin-top: -13px;
+        font-size: 80%;
+        padding-left: 10px;
+        padding-right: 10px;
+        padding-bottom: 10px;
+    }
+    
+    .avatar {
+        width: 50px;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+    }

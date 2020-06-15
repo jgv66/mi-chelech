@@ -7,21 +7,25 @@ const routes: Routes = [
     path: 'tabs',
     component: TabsPage,
     children: [
-      { path: 'tab1',        loadChildren: () => import('../tab1/tab1.module').then(m => m.Tab1PageModule)                       },
-      { path: 'tab2',        loadChildren: () => import('../tab2/tab2.module').then(m => m.Tab2PageModule)                       },
-      { path: 'tab3',        loadChildren: () => import('../tab3/tab3.module').then(m => m.Tab3PageModule)                       },
-      { path: 'tabconfig',   loadChildren: () => import('../tabconfig/tabconfig.module').then( m => m.TabconfigPageModule)       },
-      { path: 'tabmicuenta', loadChildren: () => import('../tabmicuenta/tabmicuenta.module').then( m => m.TabmicuentaPageModule) },
+      { path: 'tabvitrina',  loadChildren: () => import('../tabvitrina/tabvitrina.module').then( m => m.TabvitrinaPageModule)      },
+      { path: 'tabofertas',  loadChildren: () => import('../tabofertas/tabofertas.module').then( m => m.TabofertasPageModule)      },
+      { path: 'tabcateg',    loadChildren: () => import('../tabcateg/tabcateg.module')    .then( m => m.TabcategPageModule)        },
+      { path: 'tabbuscar',   loadChildren: () => import('../tabbuscar/tabbuscar.module')  .then( m => m.TabbuscarPageModule)       },
+      { path: 'tabmibolsa',  loadChildren: () => import('../tabmibolsa/tabmibolsa.module').then( m => m.TabmibolsaPageModule)      },
+      { path: 'tabmicuenta', loadChildren: () => import('../tabmicuenta/tabmicuenta.module').then( m => m.TabmicuentaPageModule)   },
       {
         path: '',
-        redirectTo: '/tabs/tab1',
+        redirectTo: '/tabs/tabvitrina',
         pathMatch: 'full'
-      }
+      },
+      { path: 'login',        loadChildren: () => import('../login/login.module')            .then( m => m.LoginPageModule)         },
+      { path: 'loginforgot',  loadChildren: () => import('../loginforgot/loginforgot.module').then( m => m.LoginforgotPageModule)   },
+      { path: 'logincrear',   loadChildren: () => import('../logincrear/logincrear.module')  .then( m => m.LogincrearPageModule)    },
     ]
   },
   {
     path: '',
-    redirectTo: '/tabs/tab1',
+    redirectTo: '/tabs/tabvitrina',
     pathMatch: 'full'
   }
 ];

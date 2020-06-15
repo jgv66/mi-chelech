@@ -29,6 +29,11 @@ export class NetworkService {
     return this.http.post<any[]>(this.url + '/g2s_buscar', body );
   }
 
+  buscarProdCategoria( texto, offset ) {
+    const body = { texto, offset };
+    return this.http.post<any[]>(this.url + '/g2s_buscarcategorias', body );
+  }
+
   buscarUsuario( user ) {
     const pssw = window.btoa(user.password);
     const body = { email: user.email, pssw };
@@ -41,5 +46,9 @@ export class NetworkService {
     return this.http.post<any[]>(this.url + '/g2s_insUsuario', body );
   }
 
+  olvideMiClave( forgot )  {
+    const body = { email: forgot.email, celu: forgot.celular };
+    return this.http.post<any[]>(this.url + '/g2s_forgot', body );
+  }
 
 }

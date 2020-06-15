@@ -11,7 +11,7 @@
 
 <ion-content class="animated fadeIn">
 
-    <ion-card mode="ios">
+    <ion-card mode="ios" style="top: 40px;">
         <img [src]=" producto.codigosincolor " onerror=" this.src='assets/images/no-img.png' " alt="img" class="imagen" />
         <ion-card-header>
             <ion-card-title>$ {{ producto.precio | number:"1.0-0" }}</ion-card-title>
@@ -22,11 +22,11 @@
                     {{ producto.descripcion }}
                 </ion-label>
             </ion-item>
-            <ion-item lines="none" style="height: 30px;">
+            <ion-item lines="none" style="height: 60px; margin-bottom: 15px;">
                 <ion-label class="ion-text-wrap text-align-left" style="font-size:90%; font-weight: bold;">SKU: {{producto.codigo}}</ion-label>
                 <ion-label class="ion-text-wrap text-align-right" style="font-size:90%; font-weight: bold;">Marca: {{producto.marca}}</ion-label>
             </ion-item>
-            <ion-button expand="block" size="small" color="tertiary" style="margin-top: 20px;" (click)="agregarAlCarro()">
+            <ion-button expand="block" color="tertiary" style="margin-top: 10px;" (click)="agregarAlCarro()">
                 <ion-icon slot="start" name="basket-outline"></ion-icon>
                 Agregar a mi bolsa
             </ion-button>

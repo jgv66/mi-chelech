@@ -94,3 +94,20 @@ ion-toast {
     right: -5px;
     border-radius: 100%;
 }
+
+.stripe {
+    height: 24px;
+    background: rgb(233, 57, 34);
+    width: 50px;
+    text-align: center;
+    font-size: 10px;
+    line-height: 25px;
+    // font-family: sans-serif;
+    color: #FFF;
+    transform: rotate(-90deg);
+    position: relative;
+    top: 16px;
+    left: -35px;
+    overflow: unset;
+    box-shadow: inset 0px 0px 0px 4px rgba(255, 255, 255, 0.34);
+}

@@ -1,0 +1,38 @@
+<ion-header no-border>
+    <ion-toolbar color="tertiary">
+        <ion-buttons slot="start">
+            <ion-button (click)="salir()">
+                <ion-icon slot="start" name="chevron-back-outline"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+        <ion-title>
+            Ingresar a mi cuenta
+        </ion-title>
+    </ion-toolbar>
+    <ion-progress-bar *ngIf=" buscando " type="indeterminate"></ion-progress-bar>
+</ion-header>
+
+<ion-content class="animated fadeIn">
+
+    <ion-card>
+        <ion-card-header style="margin-left: 20px;">
+            <ion-card-title>Acceder con mis datos</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+            <ion-item lines="none">
+                <ion-label position="stacked">Email</ion-label>
+                <ion-input type="email" [(ngModel)]="access.email" clear-input="true"></ion-input>
+            </ion-item>
+            <ion-item lines="none">
+                <ion-label position="stacked" style="max-width: 80%;">Clave secreta</ion-label>
+                <ion-icon [name]="(passwordType === 'text')?'eye-off-outline':'eye-outline'" color="tertiary" slot="end" (click)="togglePasswordMode()" class="clave"></ion-icon>
+                <ion-input [type]="passwordType" name="access.password" [(ngModel)]="access.password" clear-input="true" class="clavecorta"></ion-input>
+            </ion-item>
+
+            <ion-button expand="block" color="primary" class="ion-padding-horizontal ion-margin-vertical" (click)="login()" style="margin-top: 25px; padding-right: 9px;">
+                Ingresar
+            </ion-button>
+        </ion-card-content>
+    </ion-card>
+
+</ion-content>

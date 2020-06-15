@@ -1,0 +1,57 @@
+<ion-header no-border>
+    <ion-toolbar color="tertiary">
+        <ion-buttons slot="start">
+            <ion-button (click)="salir()">
+                <ion-icon slot="start" name="chevron-back-outline"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+        <ion-title>
+            Cuenta nueva en CHELECH
+        </ion-title>
+    </ion-toolbar>
+    <ion-progress-bar *ngIf=" buscando " type="indeterminate"></ion-progress-bar>
+</ion-header>
+
+<ion-content class="animated fadeIn">
+
+    <ion-card mode="ios">
+        <ion-card-header style="padding-top: 10px; padding-bottom: 10px;">
+            <ion-card-title style="margin-left: 20px;">Nuevo registro</ion-card-title>
+            <ion-card-subtitle class="ion-text-justify" style="text-transform: none !important;margin-top: 10px;margin-left: 20px;">
+                Luego de enviarnos sus datos, un correo de validación será despachado a la dirección electrónica que nos entregue. Una vez que lo reciba proceda de acuerda a las instrucciones allí contenidas.
+            </ion-card-subtitle>
+        </ion-card-header>
+        <ion-card-content>
+            <ion-list lines="none">
+                <ion-item>
+                    <ion-label position="stacked">Nombre y Apellidos</ion-label>
+                    <ion-input type="text" name="regist.nombre" [(ngModel)]="regist.nombre" clear-input="true"></ion-input>
+                </ion-item>
+                <ion-item>
+                    <ion-label position="stacked">Email <b>(**)</b></ion-label>
+                    <ion-input type="email" name="regist.email" [(ngModel)]="regist.email" clear-input="true"></ion-input>
+                </ion-item>
+                <ion-item>
+                    <ion-label position="stacked">Nro. de Teléfono <b>(**)</b></ion-label>
+                    <ion-input type="tel" name="regist.celular" [(ngModel)]="regist.celular" clear-input="true"></ion-input>
+                </ion-item>
+                <ion-item style="border-radius: 10px;">
+                    <ion-label position="stacked">Clave secreta <b>(**)</b></ion-label>
+                    <ion-icon size="large" [name]="(passwordType === 'text')?'eye-off-outline':'eye-outline'" color="tertiary" slot="end" (click)="togglePasswordMode()" class="clave"></ion-icon>
+                    <ion-input [type]="passwordType" name="regist.password" [(ngModel)]="regist.password" clear-input="true" class="clavecorta"></ion-input>
+                </ion-item>
+                <ion-item>
+                    <ion-label position="stacked">Dirección completa</ion-label>
+                    <ion-input name="regist.direccion" [(ngModel)]="regist.direccion" clear-input="true"></ion-input>
+                </ion-item>
+                <ion-button expand="block" (click)="register()" style="margin-top: 25px; padding-right: 9px;">
+                    Crear mi Cuenta
+                </ion-button>
+                <ion-item style="font-size:70%; margin-top: 5px;">
+                    <ion-label class="ion-text-center"><b>(**)</b> Campos obligatorios para registrarse</ion-label>
+                </ion-item>
+            </ion-list>
+        </ion-card-content>
+    </ion-card>
+
+</ion-content>

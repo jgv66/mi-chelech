@@ -262,10 +262,11 @@ app.post('/g2s_buscar',
                 });
     });
 
+
 // pruebas go2shop
-app.post('/g2s_usuario',
+app.post('/g2s_buscarcategorias',
     function(req, res) {
-        _funciones.g2sGetUsuario(sql, req.body)
+        _funciones.g2sGetBuscarCateg(sql, req.body)
             .then(function(rs) {
                     res.json({ resultado: 'ok', data: rs });
                 },
@@ -275,11 +276,112 @@ app.post('/g2s_usuario',
     });
 
 // pruebas go2shop
+app.post('/g2s_usuario',
+    function(req, res) {
+        _funciones.g2sGetUsuario(sql, req.body)
+            .then(function(rs) {
+                    if (rs[0].resultado === 'ok') {
+                        res.json({ resultado: 'ok', data: rs });
+                    } else {
+                        res.json({ resultado: 'error', data: rs[0].mensaje });
+                    }
+                },
+                function(err) {
+                    res.status(500).json({ resultado: 'error', data: err });
+                });
+    });
+
+function generateUUID() {
+    var d = new Date().getTime();
+    var uuid = 'xxxxxkxxixxn4xxeyxxtxxxixxxkxxxx'.replace(/[xy]/g, function(c) {
+        var r = (d + Math.random() * 16) % 16 | 0;
+        d = Math.floor(d / 16);
+        return (c == 'x' ? r : (r & 0x3 | 0x8)).toString(16);
+    });
+    return uuid;
+}
+
+// pruebas go2shop
 app.post('/g2s_insUsuario',
     function(req, res) {
-        _funciones.g2sPutUsuario(sql, req.body)
+        var id_unico = generateUUID();
+        _funciones.g2sPutUsuario(sql, req.body, id_unico)
             .then(function(rs) {
-                    res.json({ resultado: 'ok', data: rs });
+                    if (rs[0].resultado === true) {
+                        sendValidationMail(res, req.body, id_unico);
+                    } else {
+                        res.status(500).json({ resultado: 'error', data: rs[0].mensaje });
+                    }
+                },
+                function(err) {
+                    res.status(500).json({ resultado: 'error', data: err });
+                });
+    });
+// pruebas go2shop
+sendValidationMail = function(res, body, id_unico) {
+    //
+    sender = 'grupocaltex.kinetik@grupocaltex.cl';
+    psswrd = 'PPQL.2020';
+    //
+    var go2_link = 'https://api.kinetik.cl/caltex-inf/validator?uuid=' + id_unico;
+    var delBody = _correos.validarHTML();
+    //
+    delBody = delBody.replace('##usuario##', body.nombre);
+    delBody = delBody.replace('##verificador##', go2_link);
+    // 
+    cTo = body.email;
+    cSu = 'CHELECH: Validar creación de registro';
+    // datos del enviador
+    var transporter = nodemailer.createTransport({
+        pool: true,
+        host: "mail.grupocaltex.cl",
+        port: 465,
+        secure: true, // use TLS
+        auth: {
+            user: sender,
+            pass: psswrd
+        }
+    });
+    // opciones del correo
+    var mailOptions = {
+        from: { name: "chelech 👻", address: sender },
+        to: cTo,
+        subject: cSu,
+        html: delBody
+    };
+    // enviar el correo
+    transporter.sendMail(mailOptions, function(error) {
+        if (error) {
+            console.log('error en sendmail->', error);
+            res.status(500).json({ resultado: 'error', mensaje: error });
+        } else {
+            console.log("Email de registro enviado a -> ", cTo);
+            res.json({ resultado: 'ok' });
+        }
+    });
+};
+
+app.get('/validator',
+    function(req, res) {
+        _funciones.g2sValidator(sql, req.query)
+            .then(function(rs) {
+                    res.send('<p>Ud. ha completado correctamente su registro en CHELECH.</p>');
+                },
+                function(err) {
+                    res.status(500).json({ resultado: 'error', data: err });
+                });
+    });
+
+// pruebas go2shop
+app.post('/g2s_forgot',
+    function(req, res) {
+        _funciones.g2sGetClave(sql, req.body)
+            .then(function(rs) {
+                    if (rs.resultado === 'ok') {
+                        res.json({ resultado: 'ok', data: rs });
+                    } else {
+                        res.json({ resultado: 'error', data: '' });
+                    }
                 },
                 function(err) {
                     res.status(500).json({ resultado: 'error', data: err });
@@ -333,6 +435,7 @@ app.post('/soloEnviarCorreo',
         _correos.enviarCorreo(res, nodemailer, mailList, htmlBody);
         //
     });
+
 app.post('/enviarcorrreo',
     function(req, res) {
         //
@@ -993,16 +1096,6 @@ app.post('/ktp_stock_excel',
             });
 
     });
-
-function generateUUID() {
-    var d = new Date().getTime();
-    var uuid = 'xxxxxxxxxxxx4xxxyxxxxxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-        var r = (d + Math.random() * 16) % 16 | 0;
-        d = Math.floor(d / 16);
-        return (c == 'x' ? r : (r & 0x3 | 0x8)).toString(16);
-    });
-    return uuid;
-}
 
 enviarCorreo = function(res, mailList, filename) {
     //

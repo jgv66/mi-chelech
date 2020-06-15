@@ -59,7 +59,7 @@ export class FuncionesService {
   hideTabs() {
     let estilo = '';
     // tslint:disable-next-line: no-angle-bracket-type-assertion
-    const elem   = <HTMLElement> document.querySelector('.tabbar');
+    const elem   = <HTMLElement> document.querySelector('ion-tab-bar');
     if (elem != null) {
       estilo             = elem.style.display;  // se guarda
       elem.style.display = 'none';              // se anula
@@ -69,7 +69,7 @@ export class FuncionesService {
 
   showTabs( estilo ) {
     // tslint:disable-next-line: no-angle-bracket-type-assertion
-    const elem = <HTMLElement> document.querySelector('.tabbar');
+    const elem = <HTMLElement> document.querySelector('ion-tab-bar');
     if (elem != null) {
       elem.style.display = estilo;
     }

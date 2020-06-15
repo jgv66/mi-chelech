@@ -124,6 +124,22 @@ module.exports = {
             });
     },
 
+    g2sGetBuscarCateg: function(sql, body) {
+        //
+        const cdato = body.texto === undefined ? null : "'" + body.texto + "'";
+        query = "exec ksp_go2shop_buscarprodcateg " + cdato + "," + body.offset + " ; ";
+        //
+        // console.log('desde  ksp_go2shop_buscarprod->', query);
+        //
+        var request = new sql.Request();
+        return request.query(query)
+            .then((results) => { return results.recordset; })
+            .catch((error) => {
+                console.log('error en la consulta', error);
+                return 'error en la consulta';
+            });
+    },
+
     g2sGetCategorias: function(sql, body) {
         //
         query = "exec ksp_go2shop_categorias ; ";
@@ -141,7 +157,39 @@ module.exports = {
         //
         query = "exec ksp_go2shop_buscaruser '" + body.email + "','" + body.pssw + "' ; ";
         //
-        // console.log('desde ksp_go2shop_buscaruser->', query);
+        console.log('desde ksp_go2shop_buscaruser->', query);
+        //
+        var request = new sql.Request();
+        return request.query(query)
+            .then((results) => { return results.recordset; })
+            .catch((error) => {
+                console.log('error en la consulta', error);
+                return { resultado: 'error', mensaje: error };
+            });
+    },
+
+    g2sPutUsuario: function(sql, body, id_unico) {
+        //
+        const celu = (body.celu === undefined || body.celu === '') ? null : "'" + body.celu + "'";
+        const nomb = (body.nombre === undefined || body.nombre === '') ? null : "'" + body.nombre + "'";
+        const dire = (body.direccion === undefined || body.direccion === '') ? null : "'" + body.direccion + "'";
+        //
+        query = "exec ksp_go2shop_crearuser '" + body.email + "'," + celu + ",'" + body.pssw + "'," + nomb + "," + dire + ",'" + id_unico + "' ;";
+        //
+        console.log('desde ksp_go2shop_crearuser->', query);
+        //
+        var request = new sql.Request();
+        return request.query(query)
+            .then((results) => { return results.recordset; })
+            .catch((error) => {
+                console.log('error en la consulta', error);
+                return { resultado: 'error', mensaje: error };
+            });
+    },
+
+    g2sGetClave: function(sql, body) {
+        //
+        query = "exec ksp_go2shop_getclave '" + body.email + "','" + body.celu + "' ;";
         //
         var request = new sql.Request();
         return request.query(query)
@@ -152,15 +200,9 @@ module.exports = {
             });
     },
 
-    g2sPutUsuario: function(sql, body) {
+    g2sValidator: function(sql, body) {
         //
-        const celu = (body.celu === undefined || body.celu === '') ? null : "'" + body.celu + "'";
-        const nomb = (body.nombre === undefined || body.nombre === '') ? null : "'" + body.nombre + "'";
-        const dire = (body.direccion === undefined || body.direccion === '') ? null : "'" + body.direccion + "'";
-        //
-        query = "exec ksp_go2shop_crearuser '" + body.email + "'," + celu + ",'" + body.pssw + "'," + nomb + "," + dire + " ;";
-        //
-        // console.log('desde ksp_go2shop_crearuser->', query);
+        query = "exec ksp_go2shop_validator '" + body.uuid + "' ;";
         //
         var request = new sql.Request();
         return request.query(query)

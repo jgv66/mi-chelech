@@ -6,4 +6,55 @@
 
 <ion-content>
 
+    <ion-list lines="none">
+
+        <ion-item-group>
+            <ion-item-divider>
+                <ion-label>{{ tengoUsuario() ? 'Logout' : 'Login' }}</ion-label>
+            </ion-item-divider>
+            <ion-item detail (click)="login()" *ngIf=" ! tengoUsuario()  " style="margin-top: 10px;">
+                <ion-icon name="finger-print-outline" slot="start"></ion-icon>
+                <ion-label>Ingresar a mi cuenta</ion-label>
+            </ion-item>
+            <ion-item detail (click)="forgot()" [disabled]=" tengoUsuario() ">
+                <ion-icon name="bandage-outline" slot="start"></ion-icon>
+                <ion-label>Olvidé mi clave de acceso</ion-label>
+            </ion-item>
+            <ion-item detail [disabled]=" tengoUsuario() " (click)="crearUsuario()">
+                <ion-icon name="person-add-outline" slot="start"></ion-icon>
+                <ion-label>Crearme como cliente</ion-label>
+            </ion-item>
+            <ion-item detail (click)="logout()" *ngIf=" tengoUsuario()  " style="margin-top: 10px;">
+                <ion-icon name="exit-outline" slot="start"></ion-icon>
+                <ion-label>Cerrar mi sesión</ion-label>
+            </ion-item>
+        </ion-item-group>
+        <ion-item-group>
+            <ion-item-divider>
+                <ion-label>Mi Cuenta</ion-label>
+            </ion-item-divider>
+            <ion-item detail [disabled]="  !tengoUsuario()  " style="margin-top: 10px;">
+                <ion-icon name="wallet-outline" slot="start"></ion-icon>
+                <ion-label>Mis pedidos</ion-label>
+            </ion-item>
+            <ion-item detail [disabled]=" !tengoUsuario() ">
+                <ion-icon name="location-outline" slot="start"></ion-icon>
+                <ion-label>Datos de despacho</ion-label>
+            </ion-item>
+            <ion-item detail [disabled]="  !tengoUsuario()  ">
+                <ion-icon name="mail-outline" slot="start"></ion-icon>
+                <ion-label>Mis mensajes</ion-label>
+            </ion-item>
+            <ion-item detail [disabled]="  !tengoUsuario()  ">
+                <ion-icon name="refresh-outline" slot="start"></ion-icon>
+                <ion-label>Actualizar mis datos</ion-label>
+            </ion-item>
+            <ion-item detail [disabled]="  !tengoUsuario()  ">
+                <ion-icon name="notifications-outline" slot="start"></ion-icon>
+                <ion-label>Notificaciones</ion-label>
+            </ion-item>
+        </ion-item-group>
+
+    </ion-list>
+
 </ion-content>

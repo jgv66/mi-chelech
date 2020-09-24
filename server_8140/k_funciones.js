@@ -54,43 +54,6 @@ module.exports = {
         return query;
     },
 
-    stock: function(sql, body) {
-        //
-        var fechaHoy = new Date();
-        // console.log(fechaHoy);
-        // console.log(body);
-        //
-        query = "exec ksp_stockprod_caltex ";
-        //
-        var datos = body.datos;
-        //
-        if (datos.empresa === undefined) { datos.empresa = ''; } else { datos.empresa = datos.empresa.trim(); }
-        if (datos.codproducto === undefined) { datos.codproducto = ''; } else { datos.codproducto = datos.codproducto.trim(); }
-        if (datos.descripcion === undefined) { datos.descripcion = ''; } else { datos.descripcion = datos.descripcion.trim(); }
-        if (datos.superfamilias === undefined) datos.superfamilias = '';
-        if (datos.rubros === undefined) datos.rubros = '';
-        if (datos.marcas === undefined) datos.marcas = '';
-        if (datos.soloconstock === undefined) { datos.soloconstock = 'no'; }
-        if (datos.soloconprecio === undefined) { datos.soloconprecio = 'no'; }
-        if (datos.soloconocc === undefined) { datos.soloconocc = 'no'; }
-        if (datos.ordenar === undefined) { datos.ordenar = ''; }
-        //
-        query += "'";
-        query += datos.empresa + "','" + datos.codproducto + "','" + datos.descripcion + "','" + datos.superfamilias + "','" + datos.rubros + "','" + datos.marcas + "','";
-        query += datos.ordenar + "'," + datos.offset + ",'";
-        query += datos.soloconstock + "','" + datos.soloconprecio + "','" + datos.soloconocc + "','" + datos.usuario + "','' ; "; // ultimo parametro es hacia excel
-        //
-        console.log('desde stock->', query);
-        //
-        var request = new sql.Request();
-        return request.query(query)
-            .then(function(results) { return results.recordset; })
-            .catch((error) => {
-                console.log('error en la consulta', error);
-                return 'error en la consulta';
-            });
-    },
-
     producto: function(sql, datos) {
         //
         query = "exec ksp_producto_caltex '" + datos.codigo + "','" + datos.usuario + "','" + datos.empresa + "' ; ";
@@ -108,12 +71,14 @@ module.exports = {
 
     g2sGetBuscar: function(sql, body) {
         //
-        const cdato = body.texto === undefined ? null : "'" + body.texto + "'";
-        const clanding = body.landing === undefined ? '0' : '1';
-        const coferta = body.ofertas === undefined ? '0' : '1';
-        query = "exec ksp_go2shop_buscarprod " + cdato + "," + body.offset + "," + clanding + "," + coferta + " ; ";
+        console.log(body);
+        const cdato = body.texto === undefined || body.texto === null ? null : "'" + body.texto + "'";
+        const clanding = body.landing === undefined || body.landing === null ? '0' : '1';
+        const coferta = body.ofertas === undefined || body.ofertas === null ? '0' : '1';
+        const cbanner = body.banner === undefined || body.banner === null ? '0' : '1';
+        query = "exec ksp_go2shop_buscarprod " + cdato + "," + body.offset + "," + clanding + "," + coferta + "," + cbanner + " ; ";
         //
-        // console.log('desde  ksp_go2shop_buscarprod->', query);
+        console.log('desde  ksp_go2shop_buscarprod->', query);
         //
         var request = new sql.Request();
         return request.query(query)
@@ -129,7 +94,7 @@ module.exports = {
         const cdato = body.texto === undefined ? null : "'" + body.texto + "'";
         query = "exec ksp_go2shop_buscarprodcateg " + cdato + "," + body.offset + " ; ";
         //
-        // console.log('desde  ksp_go2shop_buscarprod->', query);
+        console.log('desde  ksp_go2shop_buscarprod->', query);
         //
         var request = new sql.Request();
         return request.query(query)
@@ -180,7 +145,7 @@ module.exports = {
         //
         var request = new sql.Request();
         return request.query(query)
-            .then((results) => { return results.recordset; })
+            .then((results) => { console.log('saliendo ', results.recordset); return results.recordset; })
             .catch((error) => {
                 console.log('error en la consulta', error);
                 return { resultado: 'error', mensaje: error };

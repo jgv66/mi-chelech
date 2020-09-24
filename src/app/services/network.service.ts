@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { environment } from '../../environments/environment';
+
 // import { Plugins, Capacitor } from '@capacitor/core';
 // const { Http } = Capacitor.Plugins;
 
@@ -8,14 +10,14 @@ import { HttpClient } from '@angular/common/http';
 })
 export class NetworkService {
 
-  url = 'https://api.kinetik.cl/caltex-inf';
+  url = environment.API_URL;
 
   constructor(private http: HttpClient ) {
     console.log('<<< NetworkService >>>');
   }
 
-  vitrina( offset, landing?, ofertas? ) {
-    const body = { offset, landing, ofertas };
+  vitrina( offset, landing?, ofertas?, banner? ) {
+    const body = { offset, landing, ofertas, banner };
     return this.http.post<any[]>(this.url + '/g2s_buscar', body );
   }
 

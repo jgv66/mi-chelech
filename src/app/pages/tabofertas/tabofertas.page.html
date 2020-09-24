@@ -1,6 +1,6 @@
 <ion-header no-border>
     <ion-toolbar color="tertiary">
-        <ion-title>CHELECH - Ofertas</ion-title>
+        <ion-title class="ion-text-center">CHELECH - Ofertas</ion-title>
     </ion-toolbar>
     <ion-progress-bar *ngIf=" buscando " color="tertiary" type="indeterminate"></ion-progress-bar>
 </ion-header>
@@ -16,7 +16,7 @@
                         <i class="right"></i>Oferta
                     </div>
                     <!--  -->
-                    <img [src]=" prod.codigosincolor " onerror=" this.src='assets/images/no-img.png' " alt="img" class="imagen" />
+                    <img [src]=" prod.imagen " onerror=" this.src='assets/images/no-img.png' " alt="img" class="imagen" />
                     <ion-card-header>
                         <ion-card-title>$ {{ prod.precio | number:"1.0-0" }}</ion-card-title>
                     </ion-card-header>

@@ -22,7 +22,7 @@ export class VerprodPage implements OnInit {
                   precio:      this.producto.precio,
                   listaprecio: this.producto.listaprecio,
                   metodolista: this.producto.metodolista,
-                  imagen:      this.producto.codigosincolor
+                  imagen:      this.producto.imagen
                 };
   }
 

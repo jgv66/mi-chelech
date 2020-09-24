@@ -13,16 +13,10 @@ var _funciones = require('./k_funciones.js');
 var _Activity = require('./k_regactiv.js');
 // exportar a excel
 var fs = require('fs');
-var excel_tto = require('./k_excel_gen');
-var request = require('request');
 var path = require('path');
 // var http      = require('http');
 //
-var Excel = require('exceljs');
 var fileExist = require('file-exists');
-//
-var uuid = 0;
-
 //
 app.use(function(req, res, next) {
     res.header('Access-Control-Allow-Origin', '*');
@@ -46,8 +40,8 @@ var bodyParser = require('body-parser');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-// servidor escuchando puerto 8125
-app.set('port', 8125);
+// servidor escuchando puerto 8140
+app.set('port', 8140);
 var ipAddress = '0.0.0.0';
 var https = require('https');
 var fileSystem = require('fs');
@@ -73,103 +67,9 @@ CARPETA_XLSX = publicpath + '/xlsx/';
 var sql = require('mssql');
 var conex = sql.connect(_dbconex);
 
-app.post('/seteocliente',
+app.get('/ping',
     function(req, res) {
-        res.json({ configp: _configuracion });
-    });
-
-app.post('/ktp_empresas',
-    function(req, res) {
-        //
-        _lasEmpresas.configp(sql)
-            .then(function(data) {
-                res.json({ resultado: 'ok', empresas: data });
-            });
-    });
-app.get('/ktp_empresas_get',
-    function(req, res) {
-        //
-        _lasEmpresas.configp(sql)
-            .then(function(data) {
-                res.json({ resultado: 'ok', empresas: data });
-            });
-    });
-
-app.post('/ktp_rubros',
-    function(req, res) {
-        //
-        _lasEmpresas.rubros(sql)
-            .then(function(data) {
-                res.json({ resultado: 'ok', rubros: data });
-            });
-    });
-app.get('/ktp_rubros_get',
-    function(req, res) {
-        //
-        _lasEmpresas.rubros(sql)
-            .then(function(data) {
-                res.json({ resultado: 'ok', rubros: data });
-            });
-    });
-
-app.post('/ktp_marcas',
-    function(req, res) {
-        //
-        _lasEmpresas.marcas(sql)
-            .then(function(data) {
-                res.json({ resultado: 'ok', marcas: data });
-            });
-    });
-app.get('/ktp_marcas_get',
-    function(req, res) {
-        //
-        _lasEmpresas.marcas(sql)
-            .then(function(data) {
-                res.json({ resultado: 'ok', marcas: data });
-            });
-    });
-
-app.post('/ktp_superfamilias',
-    function(req, res) {
-        //
-        _lasEmpresas.superfamilias(sql)
-            .then(function(data) {
-                res.json({ resultado: 'ok', superfamilias: data });
-            });
-    });
-app.get('/ktp_superfam_get',
-    function(req, res) {
-        //
-        _lasEmpresas.superfamilias(sql)
-            .then(function(data) {
-                res.json({ resultado: 'ok', superfamilias: data });
-            });
-    });
-app.post('/ktp_familias',
-    function(req, res) {
-        //
-        _lasEmpresas.familias(sql)
-            .then(function(data) {
-                res.json({ resultado: 'ok', familias: data });
-            });
-    });
-app.get('/ktp_familias_get',
-    function(req, res) {
-        //
-        _lasEmpresas.familias(sql)
-            .then(function(data) {
-                res.json({ resultado: 'ok', familias: data });
-            });
-    });
-
-app.post('/ktp_variables',
-    function(req, res) {
-        //
-        _lasEmpresas.variables(sql, req.body.cliente)
-            .then(function(data) {
-                //console.log("variables para "+req.body.cliente, data ); 
-                res.json({ resultado: 'ok', variables: data });
-            });
+        res.json({ resultado: 'PONG' });
     });
 
 // http://server:port/ktp_variables/:usr/:dato1/:dato2....
@@ -178,75 +78,6 @@ app.get('ktp_variables_get/:cliente',
         _lasEmpresas.variables(sql, req.params.cliente)
             .then(function(data) {
                 res.json({ resultado: 'ok', variables: data });
-            });
-    });
-
-//agregado 12/01/2019
-// se pasa parametro de empresa 11/03/2019
-app.post('/ktp_stock',
-    function(req, res) {
-        _funciones.stock(sql, req.body)
-            .then(function(rs) {
-                res.json({ resultado: 'ok', data: rs });
-            });
-    });
-
-app.get('/ktp_newid',
-    function(req, res) {
-        _funciones.newid(sql)
-            .then(function(data) {
-                //console.log("variables para "+req.body.cliente, data ); 
-                res.json({ resultado: 'ok', newid: data });
-            });
-    });
-
-app.post('/ktp_prod',
-    function(req, res) {
-        _funciones.producto(sql, req.body)
-            .then(function(rs) { res.json({ resultado: 'ok', data: rs }); });
-    });
-
-app.post('/ktp_prodOCC',
-    function(req, res) {
-        _funciones.productoconOCC(sql, req.body)
-            .then(function(rs) { res.json({ resultado: 'ok', data: rs }); });
-    });
-
-app.post('/ktp_buscarProductos',
-    function(req, res) {
-        _funciones.listaProductos(sql, req.body)
-            .then(function(rs) { res.json({ resultado: 'ok', data: rs }); });
-    });
-
-app.post('/ktp_buscarClientes',
-    function(req, res) {
-        _funciones.listaClientes(sql, req.body)
-            .then(function(rs) { res.json({ resultado: 'ok', data: rs }); });
-    });
-
-app.post('/ktp_nvvPendientes',
-    function(req, res) {
-        _funciones.NVVPendientes(sql, req.body)
-            .then(function(rs) { res.json({ resultado: 'ok', data: rs }); });
-    });
-app.post('/ktp_detallepend',
-    function(req, res) {
-        _funciones.DetalleNVVPendiente(sql, req.body)
-            .then(function(rs) { res.json({ resultado: 'ok', data: rs }); });
-    });
-
-app.post('/ktp_traeImpagos',
-    function(req, res) {
-        _funciones.impagos(sql, req.body)
-            .then(function(rs) { res.json({ resultado: 'ok', data: rs }); });
-    });
-
-//agregado 12/01/2019
-app.post('/ktp_traeDocumento',
-    function(req, res) {
-        _funciones.traeDocumento(sql, req.body)
-            .then(function(rs) {
-                res.json({ resultado: 'ok', data: rs });
             });
     });
 
@@ -320,10 +151,10 @@ app.post('/g2s_insUsuario',
 // pruebas go2shop
 sendValidationMail = function(res, body, id_unico) {
     //
-    sender = 'grupocaltex.kinetik@grupocaltex.cl';
-    psswrd = 'PPQL.2020';
+    sender = 'jogv66@gmail.com';
+    psswrd = 'belenmurielamelia';
     //
-    var go2_link = 'https://api.kinetik.cl/caltex-inf/validator?uuid=' + id_unico;
+    var go2_link = 'https://api.kinetik.cl/go2shop/validator?uuid=' + id_unico;
     var delBody = _correos.validarHTML();
     //
     delBody = delBody.replace('##usuario##', body.nombre);
@@ -332,19 +163,21 @@ sendValidationMail = function(res, body, id_unico) {
     cTo = body.email;
     cSu = 'CHELECH: Validar creación de registro';
     // datos del enviador
-    var transporter = nodemailer.createTransport({
-        pool: true,
-        host: "mail.grupocaltex.cl",
-        port: 465,
-        secure: true, // use TLS
-        auth: {
-            user: sender,
-            pass: psswrd
-        }
-    });
+    // datos del enviador
+    var transporter = nodemailer.createTransport({ service: 'Gmail', auth: { user: sender, pass: psswrd } });
+    // var transporter = nodemailer.createTransport({
+    //     pool: true,
+    //     host: "mail.grupocaltex.cl",
+    //     port: 465,
+    //     secure: true, // use TLS
+    //     auth: {
+    //         user: sender,
+    //         pass: psswrd
+    //     }
+    // });
     // opciones del correo
     var mailOptions = {
-        from: { name: "chelech 👻", address: sender },
+        from: { name: "Empresas Chelech", address: sender },
         to: cTo,
         subject: cSu,
         html: delBody
@@ -1017,86 +850,6 @@ app.post('/proalma',
 
     });
 
-// activado: 31/07/2019
-app.post('/ktp_stock_excel',
-    function(req, res) {
-        //  
-        ++uuid;
-        var id_unico = generateUUID();
-        var codigos = '';
-        var prefix = '';
-        var fechaHoy = new Date();
-        var fechaYMD = fechaHoy.getFullYear().toString() + '-' + (fechaHoy.getMonth() + 1).toString() + '-' + fechaHoy.getDate().toString();
-        //
-        var datos = req.body.datos;
-        var mailList = { emailTo: datos.emailTo, emailCc: datos.emailCc, nombreCli: datos.nombreCli };
-        //
-        console.log('%s : generando excel, usuario: %s ', fechaYMD, datos.usuario);
-        // ----------------------------------------------------
-        if (req.body.modo === 'lista_completa') {
-            //
-            query = "exec ksp_stockprod_caltex ";
-            //
-            if (datos.empresa === undefined) { datos.empresa = ''; } else { datos.empresa = datos.empresa.trim(); }
-            if (datos.codproducto === undefined) { datos.codproducto = ''; } else { datos.codproducto = datos.codproducto.trim(); }
-            if (datos.descripcion === undefined) { datos.descripcion = ''; } else { datos.descripcion = datos.descripcion.trim(); }
-            if (datos.superfamilias === undefined) datos.superfamilias = '';
-            if (datos.rubros === undefined) datos.rubros = '';
-            if (datos.marcas === undefined) datos.marcas = '';
-            if (datos.soloconstock === undefined) { datos.soloconstock = 'no'; }
-            if (datos.soloconprecio === undefined) { datos.soloconprecio = 'no'; }
-            if (datos.soloconocc === undefined) { datos.soloconocc = 'no'; }
-            if (datos.ordenar === undefined) { datos.ordenar = ''; }
-            //
-            query += "'" + datos.empresa + "','" + datos.codproducto + "','" + datos.descripcion + "','" + datos.superfamilias + "','" + datos.rubros + "','" + datos.marcas + "','";
-            query += datos.ordenar + "'," + datos.offset + ",'";
-            query += datos.soloconstock + "','" + datos.soloconprecio + "','" + datos.soloconocc + "','" + datos.usuario + "','XLS' ; ";
-            //
-            console.log('desde stock 2 excel ->', query);
-            // ----------------------------------------------------
-        } else {
-            req.body.codigos.forEach(element => {
-                codigos += '"' + element.codigo + '",';
-            });
-            codigos = codigos.slice(0, -1);
-            query = "exec ksp_stockprod_caltex_uau '" + datos.empresa + "','" + codigos + "','" + datos.ordenar + "','" + datos.usuario + "' ; ";
-            //
-            console.log('desde stock 2 excel_uau ->', query);
-        }
-        // ----------------------------------------------------
-        var request = new sql.Request();
-        request.query(query)
-            .then(function(results) {
-                var listas = results.recordset;
-                var imagenes = [];
-                // imagenes únicas 
-                listas.forEach(element => {
-                    if (!imagenes.includes(element.codigoimagen)) {
-                        imagenes.push(element.codigoimagen);
-                    }
-                });
-                //
-                filename = path.join(CARPETA_XLSX, `Stock_${fechaYMD}_${id_unico}.xlsx`);
-                //
-                createExcelFile(prefix, listas, imagenes, filename, fechaYMD)
-                    .then(() => {
-                        if (fileExist.sync(filename)) {
-                            console.log('archivo existe ', filename);
-                            enviarCorreo(res, mailList, filename);
-                        }
-                    })
-                    .catch(e => console.log(e));
-            })
-            .catch(function(err) {
-                console.log('error en la consulta', err, err.originalError);
-                res.json({
-                    resultado: 'error',
-                    mensaje: err.RequestError
-                });
-            });
-
-    });
-
 enviarCorreo = function(res, mailList, filename) {
     //
     xhoy = new Date();
@@ -1106,8 +859,8 @@ enviarCorreo = function(res, mailList, filename) {
     hora = xhoy.getHours().toString();
     minu = xhoy.getMinutes().toString();
     //
-    sender = 'grupocaltex.kinetik@grupocaltex.cl';
-    psswrd = 'PPQL.2020';
+    sender = 'jogv66@gmail.com';
+    psswrd = 'belenmurielamelia';
     //
     cTo = mailList.emailTo;
     cCc = mailList.emailCc;
@@ -1117,19 +870,20 @@ enviarCorreo = function(res, mailList, filename) {
         cTo = cCc;
     }
     // datos del enviador
-    var transporter = nodemailer.createTransport({
-        pool: true,
-        host: "mail.grupocaltex.cl",
-        port: 465,
-        secure: true, // use TLS
-        auth: {
-            user: sender,
-            pass: psswrd
-        }
-    });
+    var transporter = nodemailer.createTransport({ service: 'Gmail', auth: { user: sender, pass: psswrd } });
+    // var transporter = nodemailer.createTransport({
+    //     pool: true,
+    //     host: "mail.grupocaltex.cl",
+    //     port: 465,
+    //     secure: true, // use TLS
+    //     auth: {
+    //         user: sender,
+    //         pass: psswrd
+    //     }
+    // });
     // opciones del correo
     var mailOptions = {
-        from: { name: "GrupoCaltex 👻", address: sender },
+        from: { name: "Empresas Chelech", address: sender },
         to: cTo,
         cc: cCc,
         subject: cSu,
@@ -1161,122 +915,4 @@ eliminar = function(filename) {
         if (err) throw err;
         console.log('File deleted!', filename);
     });
-};
-
-createExcelFile = (prefix, lista, imagenes, filename, fechaYMD) => {
-
-    console.log('creando planilla con %s imagenes', imagenes.length);
-
-    var workbook = new Excel.Workbook();
-    workbook.creator = 'kinetik.cl';
-    workbook.lastModifiedBy = 'kinetik.cl';
-    workbook.created = new Date();
-    workbook.modified = new Date();
-
-    var worksheet = workbook.addWorksheet(`Stock al ${ fechaYMD }`, {
-        pageSetup: { paperSize: undefined, orientation: 'portrait', fitToPage: true }
-    });
-    // titulos
-    var bgImg = workbook.addImage({
-        buffer: fs.readFileSync(path.join(CARPETA_IMGS, `${prefix}banner_new_walk.jpg`)),
-        extension: 'jpeg',
-    });
-    worksheet.mergeCells('A1:J7');
-    worksheet.addImage(bgImg, 'D1:G7');
-
-    worksheet.getCell('A4').values = new Date();
-    worksheet.getColumn('D').width = 0.15;
-    worksheet.getColumn('E').width = 17.3;
-    worksheet.getColumn('F').width = 52;
-    worksheet.getColumn('G').width = 10;
-    worksheet.getColumn('G').numFmt = '"$"#,##0;[Red]\-"$"#,##0';
-    worksheet.getColumn('H').width = 8.43;
-    worksheet.getColumn('I').width = 27;
-    worksheet.getColumn('J').width = 12.57;
-
-    worksheet.mergeCells('A8:C8');
-    worksheet.getRow(08).alignment = { vertical: 'middle', horizontal: 'center' };
-    worksheet.getCell('A08').fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'A6A6A6' } };
-    worksheet.getCell('A08').value = "";
-    worksheet.getCell('B08').fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'A6A6A6' } };
-    worksheet.getCell('B08').value = "Imágen";
-    worksheet.getCell('C08').fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'A6A6A6' } };
-    worksheet.getCell('C08').value = "";
-    worksheet.getCell('D08').fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'A6A6A6' } };
-    worksheet.getCell('D08').value = "Código Interno";
-    worksheet.getCell('E08').fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'A6A6A6' } };
-    worksheet.getCell('E08').value = "Código Técnico";
-    worksheet.getCell('F08').fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'A6A6A6' } };
-    worksheet.getCell('F08').value = "Descripción";
-    worksheet.getCell('G08').fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'A6A6A6' } };
-    worksheet.getCell('G08').value = "Neto Unit.";
-    worksheet.getCell('H08').fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'A6A6A6' } };
-    worksheet.getCell('H08').value = "Curva";
-    worksheet.getCell('I08').fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'A6A6A6' } };
-    worksheet.getCell('I08').value = "Distribución (mensaje3)";
-    worksheet.getCell('J08').fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'A6A6A6' } };
-    worksheet.getCell('J08').value = "Saldo Tareas";
-
-    var cols = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'];
-    cols.forEach(col => {
-        worksheet.getCell(`${col}08`).border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } };
-    });
-    worksheet.getCell(`A07`).border = { top: { style: 'thin' }, left: { style: 'thin' } };
-    worksheet.getCell(`G07`).border = { top: { style: 'thin' }, right: { style: 'thin' } };
-
-    // fila de inicio
-    let rowIdx = 9;
-    // =============
-    imagenes.forEach(imagen => {
-
-        var mismos = lista.filter(item => item.codigoimagen === imagen);
-        // console.log( imagen, mismos );
-
-        let prodImg;
-        let imgPath;
-
-        try {
-            imgPath = path.join(CARPETA_IMGS, `${ prefix + imagen }.jpg`);
-            // console.log(imgPath);
-            prodImg = workbook.addImage({
-                buffer: fs.readFileSync(imgPath),
-                extension: 'jpg',
-            });
-        } catch (err) {
-            // console.error('File not found (?)', err.Error);
-            prodImg = workbook.addImage({
-                buffer: fs.readFileSync(path.join(CARPETA_IMGS, `${ prefix }no_img.jpg`)),
-                extension: 'jpg',
-            });
-        }
-
-        let filainterna = rowIdx + 2;
-        mismos.forEach(prod => {
-            var rowValues = [null, null, null, prod.codigo, prod.codigotec, prod.descripcion, prod.precio, prod.rtu.toString() + ' PRS', prod.distribucion, prod.saldo_ud1];
-            worksheet.getRow(filainterna).values = rowValues;
-            worksheet.getRow(rowIdx).alignment = { vertical: 'top' };
-
-            cols.forEach(c => {
-                worksheet.getCell(`${c}${filainterna}`).border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } };
-            });
-
-            ++filainterna;
-        });
-
-        // imagen
-        worksheet.mergeCells(`A${rowIdx}:C${rowIdx+8}`);
-        worksheet.getCell(`A${rowIdx}:C${rowIdx+8}`).alignment = { vertical: 'middle', horizontal: "center" };
-        worksheet.getCell(`A${rowIdx}:C${rowIdx+8}`).border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } };
-        worksheet.addImage(prodImg, `A${rowIdx}:C${rowIdx+8}`);
-
-        // siguiente imagen
-        rowIdx = rowIdx + 9;
-    });
-    // Write file
-    return writeExcelFile(filename, workbook);
-    //
-};
-writeExcelFile = (filename, workbook) => {
-    console.log('Creando archivo Excel : ', filename);
-    return workbook.xlsx.writeFile(filename);
 };

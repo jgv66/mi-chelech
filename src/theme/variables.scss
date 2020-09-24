@@ -25,7 +25,7 @@
     --ion-color-secondary-shade: #36abe0;
     --ion-color-secondary-tint: #50c8ff;
     /** tertiary **/
-    --ion-color-tertiary: #5260ff;
+    --ion-color-tertiary: #4D80E4;
     --ion-color-tertiary-rgb: 82, 96, 255;
     --ion-color-tertiary-contrast: #ffffff;
     --ion-color-tertiary-contrast-rgb: 255, 255, 255;
@@ -76,11 +76,7 @@
 }
 
 @media (prefers-color-scheme: dark) {
-    /*
- * Dark Colors
- * -------------------------------------------
- */
-    body {
+    body.dark {
         --ion-color-primary: #428cff;
         --ion-color-primary-rgb: 66, 140, 255;
         --ion-color-primary-contrast: #ffffff;
@@ -137,10 +133,10 @@
         --ion-color-light-tint: #383a3e;
     }
     /*
- * iOS Dark Theme
- * -------------------------------------------
- */
-    .ios body {
+       * iOS Dark Theme
+       * ----------------------------------------------------------------------------
+       */
+    .ios body.dark {
         --ion-background-color: #000000;
         --ion-background-color-rgb: 0, 0, 0;
         --ion-text-color: #ffffff;
@@ -166,17 +162,18 @@
         --ion-color-step-950: #f2f2f2;
         --ion-toolbar-background: #0d0d0d;
         --ion-item-background: #000000;
+        --ion-border-color: #1a1a1a;
     }
     /*
- * Material Design Dark Theme
- * -------------------------------------------
- */
-    .md body {
+       * Material Design Dark Theme
+       * ----------------------------------------------------------------------------
+       */
+    .md body.dark {
         --ion-background-color: #121212;
         --ion-background-color-rgb: 18, 18, 18;
         --ion-text-color: #ffffff;
         --ion-text-color-rgb: 255, 255, 255;
-        --ion-border-color: #222222;
+        --ion-border-color: #434343;
         --ion-color-step-50: #1e1e1e;
         --ion-color-step-100: #2a2a2a;
         --ion-color-step-150: #363636;
@@ -196,8 +193,11 @@
         --ion-color-step-850: #dbdbdb;
         --ion-color-step-900: #e7e7e7;
         --ion-color-step-950: #f3f3f3;
-        --ion-item-background: #1e1e1e;
-        --ion-toolbar-background: #1f1f1f;
-        --ion-tab-bar-background: #1f1f1f;
+        --ion-item-background: #292929;
+        --ion-toolbar-background: #272727;
+        --ion-tab-bar-background: #2e2e2e;
+    }
+    .ios body.dark ion-title.large-title {
+        color: var(--ion-text-color, #ffffff);
     }
 }

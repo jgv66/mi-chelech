@@ -5,27 +5,32 @@
                 <ion-icon slot="icon-only" name="arrow-back-outline"></ion-icon>
             </ion-button>
         </ion-buttons>
-        <ion-title>Información del Producto</ion-title>
+        <ion-title class="ion-text-center">Información del Producto</ion-title>
     </ion-toolbar>
 </ion-header>
 
 <ion-content class="animated fadeIn">
 
-    <ion-card mode="ios" style="top: 40px;">
-        <img [src]=" producto.codigosincolor " onerror=" this.src='assets/images/no-img.png' " alt="img" class="imagen" />
+    <ion-card mode="ios" style="top: 40px; margin-top: 80px;">
+        <img [src]=" producto.imagen " onerror=" this.src='assets/images/no-img.png' " alt="img" class="imagen" />
         <ion-card-header>
             <ion-card-title>$ {{ producto.precio | number:"1.0-0" }}</ion-card-title>
         </ion-card-header>
         <ion-card-content>
-            <ion-item lines="none" style="height: 30px;">
+            <ion-item lines="none" style="height:44px;">
                 <ion-label class="ion-text-wrap" style="font-size:90%; font-weight: bold;">
                     {{ producto.descripcion }}
                 </ion-label>
             </ion-item>
-            <ion-item lines="none" style="height: 60px; margin-bottom: 15px;">
+            <ion-item lines="none" style="height: 44px;">
                 <ion-label class="ion-text-wrap text-align-left" style="font-size:90%; font-weight: bold;">SKU: {{producto.codigo}}</ion-label>
                 <ion-label class="ion-text-wrap text-align-right" style="font-size:90%; font-weight: bold;">Marca: {{producto.marca}}</ion-label>
             </ion-item>
+            <ion-item lines="none" style="height: 44px;">
+                <ion-label class="ion-text-wrap text-align-left" style="font-size:90%; font-weight: bold;">Tienda: {{producto.segmento}}</ion-label>
+                <ion-label class="ion-text-wrap text-align-right" style="font-size:90%; font-weight: bold;">Unidad: {{producto.unidad1}}</ion-label>
+            </ion-item>
+
             <ion-button expand="block" color="tertiary" style="margin-top: 10px;" (click)="agregarAlCarro()">
                 <ion-icon slot="start" name="basket-outline"></ion-icon>
                 Agregar a mi bolsa

@@ -5,7 +5,7 @@ import { VerprodPage } from '../verprod/verprod.page';
 import { FuncionesService } from '../../services/funciones.service';
 
 const PAGE_SIZE = 20;
-const IMG_URL   = 'http://www.grupocaltex.cl/imagenes/fotos18/';
+const IMG_URL   = 'https://api.kinetik.cl/go2shop/img/';
 
 @Component({
   selector: 'app-tabcateg',
@@ -73,7 +73,7 @@ export class TabcategPage implements OnInit {
         // console.log('respuesta ', res);
         try {
           res.data.forEach(element => {
-            element.codigosincolor = IMG_URL + element.codigosincolor ;
+            element.imagen = IMG_URL + element.imagen ;
           });
           this.buscando = false;
           if ( res.data.length > 0 ) {

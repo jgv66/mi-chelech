@@ -57,7 +57,7 @@ export class LoginPage {
             this.funciones.muestraySale( 'Hola ' + res.data[0].nombre + ', ' + this.funciones.textoSaludo() , 1.5 );
             this.router.navigate(['/tabs/tabmicuenta']);
           } else {
-            this.funciones.msgAlert('', 'Email y clave reconocidos, pero aún no se ha validado con el correo que le fue enviado a la casilla electrónica que nos señaló. Siga las instrucciones del correo.');
+            this.funciones.msgAlert('', 'Email y clave reconocidos. Pero aún no se ha validado a través de la casilla electrónica que nos proporcionó. Siga las instrucciones del correo.');
           }
         } else {
           this.funciones.msgAlert('', 'Email y clave no reconocidos. Corrija y reintente.');

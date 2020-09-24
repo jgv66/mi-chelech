@@ -1,13 +1,13 @@
 <ion-header no-border>
     <ion-toolbar color="tertiary">
-        <ion-title>Empresas CHELECH</ion-title>
+        <ion-title class="ion-text-center">Empresas CHELECH</ion-title>
     </ion-toolbar>
     <ion-progress-bar *ngIf=" buscando " color="tertiary" type="indeterminate"></ion-progress-bar>
 </ion-header>
 
 <ion-content class="animated fadeIn">
 
-    <app-slideshow-backdrop [promos]="promociones" (clickPost)="clickPromocion( $event )"></app-slideshow-backdrop>
+    <app-slideshow-backdrop [promos]="promociones" (clickPost)="verproducto( $event )"></app-slideshow-backdrop>
 
     <ion-grid>
         <ion-row>
@@ -15,7 +15,7 @@
                 <ion-card mode="ios">
                     <!-- ofertas? -->
                     <div *ngIf=" prod.oferta !== true ">
-                        <img [src]=" prod.codigosincolor " onerror=" this.src='assets/images/no-img.png' " alt="img" class="imagen" />
+                        <img [src]=" prod.imagen " onerror=" this.src='assets/images/no-img.png' " alt="img" class="imagen" />
                         <ion-card-header>
                             <ion-card-title>$ {{ prod.precio | number:"1.0-0" }}</ion-card-title>
                         </ion-card-header>
@@ -27,7 +27,7 @@
                         <div class="stripe">
                             <i class="right"></i>Oferta
                         </div>
-                        <img [src]=" prod.codigosincolor " onerror=" this.src='assets/images/no-img.png' " alt="img" class="imagen" style="top:-65px" />
+                        <img [src]=" prod.imagen " onerror=" this.src='assets/images/no-img.png' " alt="img" class="imagen" style="top:-65px" />
                         <ion-card-header style="top:-65px">
                             <ion-card-title>$ {{ prod.precio | number:"1.0-0" }}</ion-card-title>
                         </ion-card-header>

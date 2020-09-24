@@ -7,7 +7,7 @@ import { BaselocalService } from '../../services/baselocal.service';
 import { FuncionesService } from '../../services/funciones.service';
 
 const PAGE_SIZE = 20;
-const IMG_URL   = 'http://www.grupocaltex.cl/imagenes/fotos18/';
+const IMG_URL   = 'https://api.kinetik.cl/go2shop/img/';
 
 @Component({
   selector: 'app-tabofertas',
@@ -28,7 +28,7 @@ export class TabofertasPage implements OnInit {
                public baseLocal: BaselocalService,
                private funciones: FuncionesService,
                public domSanitizer: DomSanitizer ) {
-    this.loadImages(0);
+    // this.loadImages(0);
   }
 
   ngOnInit() {
@@ -59,10 +59,10 @@ export class TabofertasPage implements OnInit {
     //
     this.netWork.vitrina( this.offset, null, true )
       .subscribe( (res: any) => {
-        // console.log('respuesta ', res);
+        console.log('respuesta ', res);
         try {
           res.data.forEach(element => {
-            element.codigosincolor = IMG_URL + element.codigosincolor ;
+            element.imagen = IMG_URL + element.imagen ;
           });
           this.buscando = false;
           this.productos = this.productos.length === 0 ? res.data : [...this.productos, ...res.data];
